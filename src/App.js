@@ -1,24 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
+import useFetch from './hooks/useFetch';
+import TheUser from './components/TheUser';
+import CssBaseline from "@material-ui/core/CssBaseline";
+import Container from "@material-ui/core/Container";
+import React from 'react';
+
 
 function App() {
+    const { data: user, isLoading, error: err } = useFetch(
+      "https://beta.taringa.net/api/user/username/sondeoh"
+    );
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <React.Fragment>
+      <CssBaseline />
+      <Container maxWidth="sm">
+        {isLoading && <p>loading...</p>}
+        <h1>Username</h1>
+        {user && <TheUser user={user} />}
+        {err && <p>{err}</p>}
+      </Container>
+    </React.Fragment>
   );
 }
 
